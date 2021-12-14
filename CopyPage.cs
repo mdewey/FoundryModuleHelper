@@ -27,15 +27,9 @@ namespace module_creator
           {
             break;
           }
-          Console.WriteLine(dir);
-          Console.WriteLine(currentDirectory);
           marker++;
           currentDirectory += $@"\{dir}";
-          if (Directory.Exists(currentDirectory))
-          {
-            Console.WriteLine($"{currentDirectory} Exists, don't do anything");
-          }
-          else
+          if (!Directory.Exists(currentDirectory))
           {
             Console.WriteLine($"{currentDirectory} Doesn't exists, create it");
             Directory.CreateDirectory(currentDirectory);
@@ -59,10 +53,9 @@ namespace module_creator
     {
       // get all assets
       var from = fromDirectory + @"\assets";
-      Console.WriteLine(from);
 
       string[] fileEntries = Directory.GetFiles(from, "*.*", SearchOption.AllDirectories);
-      Console.WriteLine(fileEntries.Length);
+      Console.WriteLine($"Copying {fileEntries.Length} assets");
 
       this.CopyDirectories(fileEntries, toDirectory, fromDirectory);
     }
@@ -71,12 +64,11 @@ namespace module_creator
     {
       // get all assets
       var from = fromDirectory + @"\packs";
-      Console.WriteLine(from);
 
       string[] fileEntries = Directory.GetFiles(from, "*.*", SearchOption.AllDirectories);
-      Console.WriteLine(fileEntries.Length);
-
+      Console.WriteLine($"Copying {fileEntries.Length} packs");
       this.CopyDirectories(fileEntries, toDirectory, fromDirectory);
+
     }
     public override void Display()
     {
@@ -90,7 +82,8 @@ namespace module_creator
       this.CopyAssets(fromDirectory, toDirectory);
 
       this.CopyPacks(fromDirectory, toDirectory);
-
+      Output.WriteLine("Do the thing!");
+      Output.WriteLine("********************");
       Input.ReadString("Press [Enter] to navigate home");
       Program.NavigateHome();
     }
